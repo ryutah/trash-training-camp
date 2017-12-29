@@ -18,6 +18,30 @@
 * HTMLなどを解析して、サイトが古くさいかどうか判定
 * TwitterBOTとかで晒す
 
+#### システム構成
+![architecture](/images/architecture.png)
+
+1. クローラー
+  * AppEngine スタンダード環境
+  * Webクローリングを行う
+  * クローリングしたサイトをPubSubにどんどん投げてく
+
+2. サイト解析
+  * PubSubから受け取ったサイト情報をとりあえずBigQueryに保存
+  * 決定したルールに従ってサイトを解析
+  * 解析結果をPubSubに投げる
+  * 解析結果をBigQueryに保存する
+
+3. サイト判定
+  * PubSunから受け取った解析済み情報を利用し、レガシーサイト判定をする
+  * 判定は単純なルールベース、または機械学習
+  * 判定結果をPubSubに投げる
+  * 判定結果をBigQueryに保存する
+
+4. Twitter投稿
+  * PubSubから受け取った判定済みサイト情報をTwitterに投稿
+
+
 #### ツールなど
 現段階で利用を想定している開発ツールや環境など。  
 事前調査などで、追加・変更が必要になる可能性あり。
@@ -25,15 +49,20 @@
 ##### 言語
 * Python
   - クローリング(AppEngine)
+  - サイト判定(Compute Engine)
+  - Twitterへの投稿もPythonでやっちゃう？
+* Java
   - サイト解析(Apache Beam)
-  - サイト判定(Apache Beam)
-  - Twitterへの投稿もどうせAPIあるだろうしPythonで大丈夫だろ
 
 ##### クラウドサービス
 * Google App Engine
   - GAE/Python Standard Edition
 * Cloud Dataflow
   - Apache Beamの実行環境
+* Google Compute Engine
+  - サイト判定
+  - Twitterへの投稿
+  - **Google Kubernetes Engine(GKE)のほうがいいかもしれない**
 * BigQuery
   - クローリングしたサイトの保存
   - サイトの解析と結果の保存
@@ -47,4 +76,3 @@
 * Apache Beam
 * scikit-learn
   - サイト判定に機械学習使う場合。多分これが一番簡単
-

@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: pubsub-sample-deployment
+  labels:
+    app: pubsub-subscriber
+
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: pubsub-template
+  template:
+    metadata:
+      labels:
+        app: pubsub-template
+    spec:
+      containers:
+      - name: pubsub
+        image: gcr.io/$PROJECT_ID/pubsub_sample:$BUILD_ID
+        env:
+          - name: PROJECT_ID
+            value: $PROJECT_ID

@@ -1,0 +1,17 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--tag=gcr.io/$PROJECT_ID/pubsub_sample:latest', '--tag=gcr.io/$PROJECT_ID/pubsub_sample:$BUILD_ID', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/pubsub_sample:$BUILD_ID']
+  - name: 'gcr.io/cloud-builders/kubectl'
+    entrypoint: 'k8s/replace.sh'
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'BUILD_ID=$BUILD_ID'
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=pubsub-cluster'
+images:
+  - 'gcr.io/$PROJECT_ID/pubsub_sample:latest'

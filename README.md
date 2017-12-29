@@ -11,3 +11,35 @@
 あくまで基本方針なんで、各々やりやすいやり方で問題ない。  
 一応最終的にはGitHubとかに残してもらえるとありがたい感じ？
 
+
+## 開発
+### レガシーサイト探索Bot
+* クローリングでWebサイトを徘徊
+* HTMLなどを解析して、サイトが古くさいかどうか判定
+* TwitterBOTとかで晒す
+
+#### ツールなど
+現段階で利用を想定している開発ツールや環境など。  
+事前調査などで、追加・変更が必要になる可能性あり。
+
+##### 言語
+* Python
+  - クローリング(AppEngine)
+  - サイト解析(Apache Beam)
+  - サイト判定(Apache Beam)
+  - Twitterへの投稿もどうせAPIあるだろうしPythonで大丈夫だろ
+
+##### クラウドサービス
+* Google App Engine
+  - GAE/Python Standard Edition
+* Cloud Dataflow
+  - Apache Beamの実行環境
+* BigQuery
+  - クローリングしたサイトの保存
+  - サイトの解析と結果の保存
+* Cloud Pub/Sub
+  - 各マイクロサービス間のメッセージングなど
+
+##### FW
+* Apache Beam
+

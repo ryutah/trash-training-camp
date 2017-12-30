@@ -1,0 +1,10 @@
+FROM java
+
+RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-183.0.0-linux-x86_64.tar.gz \
+ && tar xvf google-cloud-sdk-183.0.0-linux-x86_64.tar.gz \
+ && rm google-cloud-sdk-183.0.0-linux-x86_64.tar.gz \
+ && /google-cloud-sdk/install.sh --quiet
+
+RUN /google-cloud-sdk/bin/gcloud --quiet components install beta pubsub-emulator
+
+CMD ["/google-cloud-sdk/bin/gcloud", "beta", "emulators", "pubsub", "start", "--host-port", "0.0.0.0:8085"]

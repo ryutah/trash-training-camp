@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "sample-project",
+  "private_key_id": "dummy_private_key_id",
+  "private_key": "dummy_key",
+  "client_email": "dummy@sample-project.iam.gserviceaccount.com",
+  "client_id": "12345678",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pubsub-test%40dev-ryutah.iam.gserviceaccount.com"
+}

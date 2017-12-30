@@ -1,0 +1,30 @@
+version: '3'
+services:
+  pubsub-emu:
+    build:
+      context: .
+      dockerfile: Dockerfile.emulator
+    image: pubsub-emu
+    networks:
+      pubsub-sample-network:
+        aliases:
+          - emu
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pubsub-sample
+    command: ["python", "/app/main.py", "prepare"]
+    volumes:
+      - .:/tmp/app
+    environment:
+      PROJECT_ID: sample-project
+      PUBSUB_EMULATOR_HOST: emu:8085
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/app/key.json
+    networks:
+      - pubsub-sample-network
+    depends_on:
+      - pubsub-emu
+
+networks:
+  pubsub-sample-network:

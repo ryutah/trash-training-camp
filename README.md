@@ -17,6 +17,7 @@
 * クローリングでWebサイトを徘徊
 * HTMLなどを解析して、サイトが古くさいかどうか判定
 * TwitterBOTとかで晒す
+* **[リポジトリ](https://github.com/ryutah/lgbot)**
 
 #### システム構成
 ![architecture](/images/architecture.png)
